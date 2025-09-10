@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IDS Core</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h2>Intrusion Detection System</h2>
+    <form method="POST">
+        <label for="packet_data">Enter Packet Data:</label><br>
+        <textarea id="packet_data" name="packet_data" rows="4" cols="50">{{ packet_data or '' }}</textarea><br><br>
+        <input type="submit" value="Analyze">
+    </form>
+    {% if detection_result is not none %}
+        <h3>Detection Result:</h3>
+        <p>{{ detection_result }}</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cryptography Tool</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container" style="max-width:500px;">
+        <h2>Cryptography Tool (AES)</h2>
+        <form method="POST">
+            <textarea name="text" placeholder="Enter text here..." rows="3" style="width:100%;margin-bottom:8px;">{{ request.form.text or '' }}</textarea>
+            <input type="text" name="key" placeholder="Key (16 chars recommended)" value="{{ request.form.key or '' }}" required>
+            <div id="decrypt-fields" style="display:{{ 'block' if request.form.get('action') == 'decrypt' else 'none' }};margin-top:8px;">
+                <input type="text" name="iv" placeholder="IV (for decryption)" value="{{ request.form.iv or '' }}">
+                <input type="text" name="ciphertext" placeholder="Ciphertext (for decryption)" value="{{ request.form.ciphertext or '' }}">
+            </div>
+            <div style="display:flex;gap:8px;justify-content:center;margin:12px 0;">
+                <button type="submit" name="action" value="encrypt">Encrypt</button>
+                <button type="submit" name="action" value="decrypt">Decrypt</button>
+            </div>
+        </form>
+        {% if result %}
+            <div style="background:#e0ffe0;padding:12px;border-radius:8px;margin-top:12px;word-break:break-all;">
+                <b>Result:</b><br>{{ result|safe }}
+            </div>
+        {% endif %}
+        {% if error %}
+            <div style="background:#ffe0e0;padding:12px;border-radius:8px;margin-top:12px;color:#b00;">
+                <b>Error:</b> {{ error }}
+            </div>
+        {% endif %}
+        <script>
+        // Show/hide decryption fields
+        document.querySelectorAll('button[name="action"]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if(this.value === 'decrypt') {
+                    document.getElementById('decrypt-fields').style.display = 'block';
+                } else {
+                    document.getElementById('decrypt-fields').style.display = 'none';
+                }
+            });
+        });
+        </script>
+    </div>
+</body>
+</html>

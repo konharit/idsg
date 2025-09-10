@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Port Scanner</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h2>Port Scanner</h2>
+    <!-- Port scan content here -->
+    <div class="container" style="max-width:500px;">
+        <h2>Port Scanner</h2>
+        <form method="POST">
+            <input type="text" name="target" placeholder="Target IP or Hostname" value="{{ request.form.target or '' }}" required>
+            <input type="text" name="ports" placeholder="Ports (e.g. 20-25 or 80,443)" value="{{ request.form.ports or '' }}" required>
+            <button type="submit">Scan</button>
+        </form>
+        {% if results %}
+            <table style="width:100%;margin-top:16px;border-collapse:collapse;">
+                <tr style="background:#f0f0f0;"><th>Port</th><th>Status</th></tr>
+                {% for r in results %}
+                <tr><td>{{ r.port }}</td><td>{{ r.status }}</td></tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        {% if error %}
+            <div style="background:#ffe0e0;padding:12px;border-radius:8px;margin-top:12px;color:#b00;">
+                <b>Error:</b> {{ error }}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
